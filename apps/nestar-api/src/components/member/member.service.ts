@@ -28,7 +28,7 @@ export class MemberService {
         const {memberNick, memberPassword} = input;
         const response = await this.memberModel
          .findOne({ memberNick: memberNick})
-         .select("+memberPasswor")
+         .select("+memberPassword")
          .exec()
 
          if(!response || response.memberStatus === MemberStatus.DELETE) {
