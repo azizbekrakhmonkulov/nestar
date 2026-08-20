@@ -35,7 +35,7 @@ import { GraphQLFormattedError } from 'graphql';
         return graphQLFormattedError;
       },
     }), 
-    ComponentsModule, 
+    ComponentsModule, // Assosiy mantiqlarimiz
     DatabaseModule
   ],
   controllers: [AppController],
