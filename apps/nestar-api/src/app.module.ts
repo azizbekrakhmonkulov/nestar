@@ -12,8 +12,8 @@ import { GraphQLFormattedError } from 'graphql';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(), 
-    GraphQLModule.forRoot({
+    ConfigModule.forRoot(),      // Reading => .env 
+    GraphQLModule.forRoot({      // Building GraphQL API + Error handling
       driver: ApolloDriver,
       playgarund: true,
       uploads: false,
@@ -25,20 +25,20 @@ import { GraphQLFormattedError } from 'graphql';
           error?.message;
 
         const graphQLFormattedError = {
-          message,                         
+          message,
           extensions: {
             code: error.extensions?.code ?? 'INTERNAL_SERVER_ERROR',
           },
         };
-  
+
         console.log('GRAPHQL GLOBAL ERR:', graphQLFormattedError);
         return graphQLFormattedError;
       },
-    }), 
+    }),
     ComponentsModule, // Assosiy mantiqlarimiz
-    DatabaseModule
+    DatabaseModule // Connection to DB
   ],
   controllers: [AppController],
   providers: [AppService, AppResolver],
 })
-export class AppModule {}
+export class AppModule { }
