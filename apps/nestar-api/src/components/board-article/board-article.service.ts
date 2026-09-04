@@ -48,7 +48,7 @@ export class BoardArticleService {
             articleStatus: BoardArticleStatus.ACTIVE,
         };
 
-        const targetBoardArticle = await this.boardArticleModel.findOne(search).lean().exec();
+        const targetBoardArticle = await this.boardArticleModel.findOne(search).lean<BoardArticle>().exec();
         if (!targetBoardArticle) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
         if (memberId) {
@@ -60,6 +60,9 @@ export class BoardArticleService {
             }
 
             // meLiked
+
+            const likeInput = { memberId: memberId, likeRefId: articleId, likeGroup: LikeGroup.ARTICLE };
+            targetBoardArticle.meLiked = await this.likeService.checkLikeExistence(likeInput);
         }
 
         targetBoardArticle.memberData = (await this.memberService.getMember(null, targetBoardArticle.memberId)) as any;

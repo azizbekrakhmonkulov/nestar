@@ -41,7 +41,7 @@ export class PropertyService {
             _id: propertyId,
             propertyStatus: PropertyStatus.ACTIVE,
         };
-        const targetProperty = await this.propertyModel.findOne(search).lean().exec();
+        const targetProperty = await this.propertyModel.findOne(search).lean<Property>().exec();
         if (!targetProperty) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
         if (memberId) {
@@ -51,6 +51,8 @@ export class PropertyService {
                 await this.propertyStatsEditor({ _id: propertyId, targetKey: 'propertyViews', modifier: 1 });
             }
             // meLiked
+            const likeInput = { memberId: memberId, likeRefId: propertyId, likeGroup: LikeGroup.PROPERTY };
+            targetProperty.meLiked = await this.likeService.checkLikeExistence(likeInput);
         }
         targetProperty.memberData = (await this.memberService.getMember(null, targetProperty.memberId)) as any;
         return targetProperty;
