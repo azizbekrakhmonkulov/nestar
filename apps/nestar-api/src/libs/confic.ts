@@ -19,6 +19,7 @@ export const availableCommentSorts = ['createdAt', 'updatedAt'];
 // IMAGE CONFIGURATION
 import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path';
+import { T } from './types/common';
 
 export const validMimeTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 export const validImageExtensions = ['.png', '.jpg', '.jpeg'];
@@ -35,6 +36,40 @@ export const isValidImage = (filename: string, mimetype: string) => {
 export const shapeIntoMongoObjectId = (target: any) => {
     return typeof target === 'string' ? new ObjectId(target) : target;
 }
+
+export const lookupAuthMemberLiked = (memberId: T, targetRefId: string = "$_id") => {
+    return {
+        $lookup: {
+            from: 'likes',
+            let: {
+                localRefLikedId: targetRefId,
+                localMemberId: memberId,
+                localMyFavarite: true,
+            },
+            pipeline: [
+                {
+                    $match: {
+                        $expr: {
+                            $and: [
+                                { $eq: ['$likeRefId', '$$localRefLikedId'] },
+                                { $eq: ['$memberId', '$$localMemberId'] }],
+                        },
+                    },
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        memberId: 1,
+                        likeRefId: 1,
+                        myFavarite: '$$localMyFavarite',
+                    },
+                }
+            ],
+            as: 'meLiked',
+        },
+    }
+};
+
 
 export const lookupFollowingData = {
     $lookup: {
