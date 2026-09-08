@@ -18,6 +18,6 @@ import { PropertyService } from '../property/property.service';
     BoardArticleModule,
   ],
   providers: [CommentResolver, CommentService],
-  exports: [PropertyService],
+  exports: [CommentService],
 })
 export class CommentModule { }

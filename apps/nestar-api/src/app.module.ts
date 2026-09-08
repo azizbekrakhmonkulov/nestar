@@ -7,8 +7,8 @@ import { ApolloDriver } from '@nestjs/apollo'
 import { AppResolver } from './app.resolver';
 import { ComponentsModule } from './components/components.module';
 import { DatabaseModule } from './database/database.module';
-import { T } from './libs/types/common';
 import { GraphQLFormattedError } from 'graphql';
+import { SocketModule } from './socket/socket.module';
 
 @Module({
   imports: [
@@ -36,9 +36,10 @@ import { GraphQLFormattedError } from 'graphql';
       },
     }),
     ComponentsModule, // Assosiy mantiqlarimiz
-    DatabaseModule // Connection to DB
+    DatabaseModule, // Connection to DB
+    SocketModule, // WebSocket Gateway  
   ],
   controllers: [AppController],
-  providers: [AppService, AppResolver],
+  providers: [AppService, AppResolver,],
 })
 export class AppModule { }

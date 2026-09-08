@@ -11,6 +11,7 @@ import { LikeModule } from '../like/like.module';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: "Property", schema: PropertySchema }]), AuthModule, ViewModule, MemberModule, LikeModule],
-  providers: [PropertyResolver, PropertyService]
+  providers: [PropertyResolver, PropertyService],
+  exports: [PropertyService],
 })
 export class PropertyModule { }
