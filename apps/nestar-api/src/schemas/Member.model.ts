@@ -98,7 +98,7 @@ const MemberSchema = new Schema({
   memberRank: {
     type: Number,
     default: 0,
-  }, 
+  },
 
   memberWarnings: {
     type: Number,
@@ -110,11 +110,11 @@ const MemberSchema = new Schema({
     default: 0,
   },
 
-  deleteAt: {
+  deletedAt: {
     type: Date,
-  }, 
+  },
 },
-{ timestamps: true, collection: 'members'},
+  { timestamps: true, collection: 'members' },
 );
 
 export default MemberSchema;

@@ -61,7 +61,7 @@ export class AgentsInquiry {
     limit: number;
 
     @IsOptional()
-    @IsIn([availableAgentsSorts])
+    @IsIn(availableAgentsSorts)
     @Field(() => String, { nullable: true })
     sort?: string;
 
@@ -103,7 +103,7 @@ export class MembesInquiry {
     limit: number;
 
     @IsOptional()
-    @IsIn([availableMemberSorts])
+    @IsIn(availableMemberSorts)
     @Field(() => String, { nullable: true })
     sort?: string;
 
